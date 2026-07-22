@@ -1,5 +1,5 @@
-import { Link, usePage } from '@inertiajs/react';
-import { CalendarDays, LayoutGrid, Menu } from 'lucide-react';
+import { Link, router, usePage } from '@inertiajs/react';
+import { CalendarDays, LayoutGrid, LogOut, Menu, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { LangToggle } from '@/components/nova/lang-toggle';
 import { NovaLogo } from '@/components/nova/logo';
@@ -21,11 +21,12 @@ import {
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useInitials } from '@/hooks/use-initials';
 import { useLang } from '@/hooks/use-lang';
-import { login, register } from '@/routes';
+import { login, logout, register } from '@/routes';
 import admin from '@/routes/admin';
 import appointments from '@/routes/appointments';
 import book from '@/routes/book';
 import doctors from '@/routes/doctors';
+import { edit as editProfile } from '@/routes/profile';
 import services from '@/routes/services';
 import type { MaybeAuth } from '@/types';
 
@@ -187,7 +188,30 @@ export function Navbar() {
                                 <ThemeToggle />
                             </div>
 
-                            {!user && (
+                            {user ? (
+                                <div className="mt-2 flex flex-col gap-1 border-t border-border pt-2">
+                                    <Link
+                                        href={editProfile()}
+                                        onClick={() => setMobileOpen(false)}
+                                        className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
+                                    >
+                                        <Settings className="size-4" />
+                                        Settings
+                                    </Link>
+                                    <Link
+                                        href={logout()}
+                                        as="button"
+                                        onClick={() => {
+                                            setMobileOpen(false);
+                                            router.flushAll();
+                                        }}
+                                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-start text-sm font-medium hover:bg-accent"
+                                    >
+                                        <LogOut className="size-4" />
+                                        Log out
+                                    </Link>
+                                </div>
+                            ) : (
                                 <div className="mt-2 flex flex-col gap-2">
                                     <Button asChild variant="outline">
                                         <Link href={login()}>
