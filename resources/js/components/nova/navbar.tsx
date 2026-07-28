@@ -72,7 +72,7 @@ export function Navbar() {
                             className="flex items-center gap-1 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
                         >
                             <LayoutGrid className="size-3.5" />
-                            {t('nav.adminBookings')}
+                            {t('nav.adminDashboard')}
                         </Link>
                     )}
                 </nav>
@@ -169,7 +169,7 @@ export function Navbar() {
                                     onClick={() => setMobileOpen(false)}
                                     className="rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
                                 >
-                                    {t('nav.adminBookings')}
+                                    {t('nav.adminDashboard')}
                                 </Link>
                             )}
 

@@ -7,6 +7,7 @@ export type Service = {
     description_ar: string | null;
     duration_minutes: number;
     price: number;
+    active: boolean;
 };
 
 export type Doctor = {
@@ -19,6 +20,7 @@ export type Doctor = {
     photo_path: string | null;
     bio: string | null;
     bio_ar: string | null;
+    active: boolean;
     services?: Service[];
 };
 

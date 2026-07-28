@@ -24,6 +24,7 @@ class DoctorResource extends JsonResource
             'photo_path' => $this->photo_path,
             'bio' => $this->bio,
             'bio_ar' => $this->bio_ar,
+            'active' => $this->active,
             'services' => ServiceResource::collection($this->whenLoaded('services')),
         ];
     }

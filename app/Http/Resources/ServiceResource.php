@@ -23,6 +23,7 @@ class ServiceResource extends JsonResource
             'description_ar' => $this->description_ar,
             'duration_minutes' => $this->duration_minutes,
             'price' => (float) $this->price,
+            'active' => $this->active,
         ];
     }
 }

@@ -2,11 +2,14 @@
 
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\CalendarController as AdminCalendarController;
+use App\Http\Controllers\Admin\DoctorController as AdminDoctorController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MyAppointmentController;
 use App\Http\Controllers\ServiceController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -20,8 +23,10 @@ Route::prefix('book')->name('book.')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return redirect()->route('appointments.index');
+    Route::get('dashboard', function (Request $request) {
+        return $request->user()->is_admin
+            ? redirect()->route('admin.bookings.index')
+            : redirect()->route('appointments.index');
     })->name('dashboard');
 
     Route::get('book/confirm', [BookingController::class, 'confirm'])->name('book.confirm');
@@ -35,6 +40,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     Route::get('bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
     Route::patch('bookings/{booking}', [AdminBookingController::class, 'update'])->name('bookings.update');
     Route::get('calendar', AdminCalendarController::class)->name('calendar');
+    Route::resource('doctors', AdminDoctorController::class)->except('show');
+    Route::resource('services', AdminServiceController::class)->except('show');
 });
 
 require __DIR__.'/settings.php';
