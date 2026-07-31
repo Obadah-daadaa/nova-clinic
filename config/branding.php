@@ -35,12 +35,15 @@ return [
     |
     | Path to a logo image, resolved from the public directory — for example
     | "img/logo.svg" for public/img/logo.svg. An absolute URL also works.
-    | When empty the UI falls back to the built-in stethoscope mark, so the
-    | app still looks finished before a real logo exists.
+    | Set BRAND_LOGO="" to fall back to the built-in stethoscope mark.
+    |
+    | The shipped asset is the default here rather than being left to env,
+    | because .env isn't in version control — an env-only default would mean
+    | every fresh clone and every deploy silently showed the generic icon.
     |
     */
 
-    'logo' => env('BRAND_LOGO'),
+    'logo' => env('BRAND_LOGO', 'img/brand-logo.svg'),
 
     /*
     |--------------------------------------------------------------------------

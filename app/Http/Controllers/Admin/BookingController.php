@@ -67,7 +67,9 @@ class BookingController extends Controller
             $doctorId = $data['doctor_id'] ?? $booking->doctor_id;
             $serviceId = $data['service_id'] ?? $booking->service_id;
             $startsAt = isset($data['starts_at']) ? Carbon::parse($data['starts_at']) : $booking->starts_at;
-            $duration = Service::query()->findOrFail($serviceId)->duration_minutes;
+            // whereKey()->firstOrFail() rather than findOrFail(): the latter also
+            // accepts a list of ids, so its return type is Service|Collection.
+            $duration = Service::query()->whereKey($serviceId)->firstOrFail()->duration_minutes;
 
             $conflict = Booking::query()
                 ->where('doctor_id', $doctorId)
