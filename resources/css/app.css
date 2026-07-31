@@ -45,6 +45,7 @@
 
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
+    --color-destructive-text: var(--destructive-text);
 
     --color-border: var(--border);
     --color-input: var(--input);
@@ -86,6 +87,9 @@
     --gold-foreground: oklch(0.26 0.05 90);
     --destructive: oklch(0.577 0.245 27.325);
     --destructive-foreground: oklch(0.985 0 0);
+    /* Destructive text sits on a light surface, so it needs the darker red.
+       --destructive stays as-is because it is also a button background. */
+    --destructive-text: oklch(0.52 0.22 27);
     --border: oklch(0.9 0.012 90);
     --input: oklch(0.9 0.012 90);
     --ring: oklch(0.36 0.07 205);
@@ -124,6 +128,8 @@
     --gold-foreground: oklch(0.2 0.04 90);
     --destructive: oklch(0.55 0.2 25);
     --destructive-foreground: oklch(0.96 0.008 90);
+    /* Lighter than --destructive so it reads against the dark surface. */
+    --destructive-text: oklch(0.72 0.16 25);
     --border: oklch(0.3 0.02 225);
     --input: oklch(0.3 0.02 225);
     --ring: oklch(0.74 0.1 195);
