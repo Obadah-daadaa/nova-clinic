@@ -16,7 +16,8 @@ Route::get('/', HomeController::class)->name('home');
 Route::get('/services', ServiceController::class)->name('services.index');
 Route::get('/doctors', DoctorController::class)->name('doctors.index');
 
-Route::prefix('book')->name('book.')->group(function () {
+// Guests may browse the booking flow; admins are bounced to their dashboard.
+Route::middleware('patient')->prefix('book')->name('book.')->group(function () {
     Route::get('service', [BookingController::class, 'services'])->name('service');
     Route::get('doctor', [BookingController::class, 'doctors'])->name('doctor');
     Route::get('slot', [BookingController::class, 'slot'])->name('slot');
@@ -29,11 +30,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             : redirect()->route('appointments.index');
     })->name('dashboard');
 
-    Route::get('book/confirm', [BookingController::class, 'confirm'])->name('book.confirm');
-    Route::post('book', [BookingController::class, 'store'])->name('book.store');
+    // Booking and personal appointments belong to patients only.
+    Route::middleware('patient')->group(function () {
+        Route::get('book/confirm', [BookingController::class, 'confirm'])->name('book.confirm');
+        Route::post('book', [BookingController::class, 'store'])->name('book.store');
 
-    Route::get('appointments', [MyAppointmentController::class, 'index'])->name('appointments.index');
-    Route::post('appointments/{booking}/cancel', [MyAppointmentController::class, 'cancel'])->name('appointments.cancel');
+        Route::get('appointments', [MyAppointmentController::class, 'index'])->name('appointments.index');
+        Route::post('appointments/{booking}/cancel', [MyAppointmentController::class, 'cancel'])->name('appointments.cancel');
+    });
 });
 
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -45,3 +49,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
 });
 
 require __DIR__.'/settings.php';
+
+// Catch unmatched URLs inside the router so the `web` middleware group still
+// runs. Without this the 404 is thrown before the session starts, and the error
+// page would render a signed-in visitor as a guest. Must stay last.
+Route::fallback(fn () => abort(404));

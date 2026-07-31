@@ -36,6 +36,10 @@ export function Navbar() {
     const getInitials = useInitials();
     const [mobileOpen, setMobileOpen] = useState(false);
     const user = auth?.user ?? null;
+    const isAdmin = Boolean(user?.is_admin);
+    // Booking and "my appointments" are patient features — the server rejects
+    // admins on those routes, so don't offer them the entry points either.
+    const canBook = !isAdmin;
 
     const navLinks = [
         { href: '/', label: t('nav.home') },
@@ -58,21 +62,12 @@ export function Navbar() {
                             {link.label}
                         </Link>
                     ))}
-                    {user && (
+                    {user && !isAdmin && (
                         <Link
                             href={appointments.index()}
                             className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
                         >
                             {t('nav.myAppointments')}
-                        </Link>
-                    )}
-                    {user?.is_admin && (
-                        <Link
-                            href={admin.bookings.index()}
-                            className="flex items-center gap-1 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
-                        >
-                            <LayoutGrid className="size-3.5" />
-                            {t('nav.adminDashboard')}
                         </Link>
                     )}
                 </nav>
@@ -81,12 +76,14 @@ export function Navbar() {
                     <LangToggle />
                     <ThemeToggle />
 
-                    <Button asChild size="sm" className="ms-1 gap-1.5">
-                        <Link href={book.service()}>
-                            <CalendarDays className="size-4" />
-                            {t('nav.bookAppointment')}
-                        </Link>
-                    </Button>
+                    {canBook && (
+                        <Button asChild size="sm" className="ms-1 gap-1.5">
+                            <Link href={book.service()}>
+                                <CalendarDays className="size-4" />
+                                {t('nav.bookAppointment')}
+                            </Link>
+                        </Button>
+                    )}
 
                     {user ? (
                         <DropdownMenu>
@@ -154,7 +151,7 @@ export function Navbar() {
                                     {link.label}
                                 </Link>
                             ))}
-                            {user && (
+                            {user && !isAdmin && (
                                 <Link
                                     href={appointments.index()}
                                     onClick={() => setMobileOpen(false)}
@@ -163,25 +160,17 @@ export function Navbar() {
                                     {t('nav.myAppointments')}
                                 </Link>
                             )}
-                            {user?.is_admin && (
-                                <Link
-                                    href={admin.bookings.index()}
-                                    onClick={() => setMobileOpen(false)}
-                                    className="rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
-                                >
-                                    {t('nav.adminDashboard')}
-                                </Link>
+                            {canBook && (
+                                <Button asChild className="mt-3 gap-1.5">
+                                    <Link
+                                        href={book.service()}
+                                        onClick={() => setMobileOpen(false)}
+                                    >
+                                        <CalendarDays className="size-4" />
+                                        {t('nav.bookAppointment')}
+                                    </Link>
+                                </Button>
                             )}
-
-                            <Button asChild className="mt-3 gap-1.5">
-                                <Link
-                                    href={book.service()}
-                                    onClick={() => setMobileOpen(false)}
-                                >
-                                    <CalendarDays className="size-4" />
-                                    {t('nav.bookAppointment')}
-                                </Link>
-                            </Button>
 
                             <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
                                 <LangToggle />
@@ -190,6 +179,16 @@ export function Navbar() {
 
                             {user ? (
                                 <div className="mt-2 flex flex-col gap-1 border-t border-border pt-2">
+                                    {isAdmin && (
+                                        <Link
+                                            href={admin.bookings.index()}
+                                            onClick={() => setMobileOpen(false)}
+                                            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
+                                        >
+                                            <LayoutGrid className="size-4" />
+                                            {t('nav.adminDashboard')}
+                                        </Link>
+                                    )}
                                     <Link
                                         href={editProfile()}
                                         onClick={() => setMobileOpen(false)}

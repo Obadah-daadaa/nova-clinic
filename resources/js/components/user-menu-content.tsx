@@ -1,5 +1,5 @@
 import { Link, router } from '@inertiajs/react';
-import { LogOut, Settings } from 'lucide-react';
+import { LayoutGrid, LogOut, Settings } from 'lucide-react';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -9,6 +9,7 @@ import {
 import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { logout } from '@/routes';
+import admin from '@/routes/admin';
 import { edit } from '@/routes/profile';
 import type { User } from '@/types';
 
@@ -33,6 +34,19 @@ export function UserMenuContent({ user }: Props) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+                {user.is_admin && (
+                    <DropdownMenuItem asChild>
+                        <Link
+                            className="block w-full cursor-pointer"
+                            href={admin.bookings.index()}
+                            prefetch
+                            onClick={cleanup}
+                        >
+                            <LayoutGrid className="mr-2" />
+                            Dashboard
+                        </Link>
+                    </DropdownMenuItem>
+                )}
                 <DropdownMenuItem asChild>
                     <Link
                         className="block w-full cursor-pointer"
