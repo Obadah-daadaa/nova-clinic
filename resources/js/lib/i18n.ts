@@ -189,6 +189,28 @@ const dictionary = {
         'footer.address': 'Sheikh Zayed Road, Dubai, UAE',
         'footer.hours': 'Working hours',
         'footer.hoursValue': 'Sun – Thu, 9:00 AM – 5:00 PM',
+
+        'error.404Title': 'Page not found',
+        'error.404Body':
+            "The page you're looking for doesn't exist or may have moved.",
+        'error.403Title': 'Access denied',
+        'error.403Body': "You don't have permission to view this page.",
+        'error.401Title': 'Please sign in',
+        'error.401Body': 'You need to be signed in to view this page.',
+        'error.419Title': 'Session expired',
+        'error.419Body': 'Your session timed out. Please refresh and try again.',
+        'error.429Title': 'Too many requests',
+        'error.429Body': 'Please wait a moment before trying again.',
+        'error.500Title': 'Something went wrong',
+        'error.500Body':
+            'An unexpected error occurred on our side. Please try again shortly.',
+        'error.503Title': 'Down for maintenance',
+        'error.503Body': "We'll be back shortly. Thanks for your patience.",
+        'error.goHome': 'Back to home',
+        'error.goBack': 'Go back',
+        'error.signIn': 'Sign in',
+
+        'loading.default': 'Loading…',
     },
     ar: {
         'nav.home': 'الرئيسية',
@@ -372,6 +394,26 @@ const dictionary = {
         'footer.address': 'شارع الشيخ زايد، دبي، الإمارات العربية المتحدة',
         'footer.hours': 'ساعات العمل',
         'footer.hoursValue': 'الأحد – الخميس، 9:00 صباحًا – 5:00 مساءً',
+
+        'error.404Title': 'الصفحة غير موجودة',
+        'error.404Body': 'الصفحة التي تبحث عنها غير موجودة أو تم نقلها.',
+        'error.403Title': 'الوصول مرفوض',
+        'error.403Body': 'ليست لديك صلاحية لعرض هذه الصفحة.',
+        'error.401Title': 'يرجى تسجيل الدخول',
+        'error.401Body': 'يجب تسجيل الدخول لعرض هذه الصفحة.',
+        'error.419Title': 'انتهت الجلسة',
+        'error.419Body': 'انتهت مدة جلستك. يرجى تحديث الصفحة والمحاولة مرة أخرى.',
+        'error.429Title': 'طلبات كثيرة جدًا',
+        'error.429Body': 'يرجى الانتظار قليلًا قبل المحاولة مرة أخرى.',
+        'error.500Title': 'حدث خطأ ما',
+        'error.500Body': 'حدث خطأ غير متوقع من جهتنا. يرجى المحاولة بعد قليل.',
+        'error.503Title': 'الموقع تحت الصيانة',
+        'error.503Body': 'سنعود قريبًا. شكرًا لصبرك.',
+        'error.goHome': 'العودة للرئيسية',
+        'error.goBack': 'رجوع',
+        'error.signIn': 'تسجيل الدخول',
+
+        'loading.default': 'جارٍ التحميل…',
     },
 } as const satisfies Record<Locale, Record<string, string>>;
 

@@ -1,5 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
 import { BookingStepper } from '@/components/nova/booking-stepper';
 import { SlotPicker } from '@/components/nova/slot-picker';
 import { Button } from '@/components/ui/button';
@@ -18,6 +19,10 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 export default function BookSlot({ service, doctor, date, slots }: PageProps) {
     const { t, pick } = useLang();
+    // This is a partial reload, so the page never unmounts and the global
+    // progress bar is the only hint anything happened. Track it locally so the
+    // slot grid can show skeletons instead of the previous day's times.
+    const [loadingSlots, setLoadingSlots] = useState(false);
 
     const handleDateChange = (newDate: string) => {
         router.get(
@@ -25,7 +30,13 @@ export default function BookSlot({ service, doctor, date, slots }: PageProps) {
                 query: { service: service.id, doctor: doctor.id, date: newDate },
             }).url,
             {},
-            { preserveState: true, preserveScroll: true, only: ['slots', 'date'] },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                only: ['slots', 'date'],
+                onStart: () => setLoadingSlots(true),
+                onFinish: () => setLoadingSlots(false),
+            },
         );
     };
 
@@ -65,6 +76,7 @@ export default function BookSlot({ service, doctor, date, slots }: PageProps) {
                     date={date}
                     minDate={today()}
                     slots={slots}
+                    loading={loadingSlots}
                     onDateChange={handleDateChange}
                     onSelectSlot={handleSelectSlot}
                 />

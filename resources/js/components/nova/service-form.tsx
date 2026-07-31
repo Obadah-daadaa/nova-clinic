@@ -1,5 +1,4 @@
 import { Form } from '@inertiajs/react';
-import type { RouteFormDefinition } from '@/wayfinder';
 import type { ReactNode } from 'react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLang } from '@/hooks/use-lang';
 import type { Service } from '@/types/clinic';
+import type { RouteFormDefinition } from '@/wayfinder';
 
 type ServiceFormFields = {
     name: string;

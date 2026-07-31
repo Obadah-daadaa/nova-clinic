@@ -2,6 +2,7 @@ import { CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useLang } from '@/hooks/use-lang';
 import type { Slot } from '@/types/clinic';
 
@@ -9,12 +10,15 @@ export function SlotPicker({
     date,
     minDate,
     slots,
+    loading = false,
     onDateChange,
     onSelectSlot,
 }: {
     date: string;
     minDate: string;
     slots: Slot[];
+    /** True while a new day's slots are being fetched. */
+    loading?: boolean;
     onDateChange: (date: string) => void;
     onSelectSlot: (slot: Slot) => void;
 }) {
@@ -36,7 +40,18 @@ export function SlotPicker({
                 />
             </div>
 
-            {slots.length === 0 ? (
+            {loading ? (
+                <div
+                    className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6"
+                    aria-busy="true"
+                    aria-live="polite"
+                    aria-label={t('loading.default')}
+                >
+                    {Array.from({ length: 12 }, (_, i) => (
+                        <Skeleton key={i} className="h-9 rounded-md" />
+                    ))}
+                </div>
+            ) : slots.length === 0 ? (
                 <p className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
                     {t('booking.noSlots')}
                 </p>

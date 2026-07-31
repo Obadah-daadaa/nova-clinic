@@ -35,12 +35,11 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        // `name`, `branding` and `auth` are shared globally from
+        // AppServiceProvider so they survive renders that bypass this
+        // middleware, such as the 404 for an unmatched URL.
         return [
             ...parent::share($request),
-            'name' => config('app.name'),
-            'auth' => [
-                'user' => $request->user(),
-            ],
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),

@@ -71,6 +71,7 @@ export function DoctorForm({ doctor, services, formProps, submitLabel }: Props) 
                                 accept="image/*"
                                 onChange={(e) => {
                                     const file = e.target.files?.[0];
+
                                     if (file) {
                                         setPreview(URL.createObjectURL(file));
                                     }
