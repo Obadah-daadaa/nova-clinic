@@ -3,7 +3,6 @@ import { CalendarRange, LayoutGrid, Stethoscope, Syringe } from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { BrandMark } from '@/components/nova/brand-mark';
-import { SidebarLangToggle } from '@/components/nova/sidebar-lang-toggle';
 import {
     Sidebar,
     SidebarContent,
@@ -19,7 +18,7 @@ import admin from '@/routes/admin';
 import type { NavItem } from '@/types';
 
 export function AppSidebar() {
-    const { t } = useLang();
+    const { t, dir } = useLang();
     const { name: brandName } = useBranding();
 
     const mainNavItems: NavItem[] = [
@@ -46,14 +45,20 @@ export function AppSidebar() {
     ];
 
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        // The sidebar positions itself with physical left/right, so it has to be
+        // told which edge to sit on when the document flips to RTL.
+        <Sidebar
+            collapsible="icon"
+            variant="inset"
+            side={dir === 'rtl' ? 'right' : 'left'}
+        >
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <Link href={admin.bookings.index()}>
                                 <BrandMark />
-                                <span className="ml-1 grid flex-1 text-left text-sm">
+                                <span className="ms-1 grid flex-1 text-start text-sm">
                                     <span className="truncate leading-tight font-semibold">
                                         {brandName}
                                     </span>
@@ -72,7 +77,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <SidebarLangToggle />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
