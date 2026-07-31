@@ -1,9 +1,12 @@
 import { Link } from '@inertiajs/react';
-import { Stethoscope } from 'lucide-react';
+import { BrandMark } from '@/components/nova/brand-mark';
+import { useBranding } from '@/hooks/use-branding';
 import { cn } from '@/lib/utils';
 import { home } from '@/routes';
 
 export function NovaLogo({ className }: { className?: string }) {
+    const { name, tagline } = useBranding();
+
     return (
         <Link
             href={home()}
@@ -12,14 +15,17 @@ export function NovaLogo({ className }: { className?: string }) {
                 className,
             )}
         >
-            <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Stethoscope className="size-4.5" />
-            </span>
+            <BrandMark />
             <span className="text-lg leading-none">
-                Nova{' '}
-                <span className="font-normal text-muted-foreground">
-                    Clinic
-                </span>
+                {name}
+                {tagline && (
+                    <>
+                        {' '}
+                        <span className="font-normal text-muted-foreground">
+                            {tagline}
+                        </span>
+                    </>
+                )}
             </span>
         </Link>
     );

@@ -19,3 +19,11 @@ export type AuthLayoutProps = {
     title?: string;
     description?: string;
 };
+
+/** Brand name/logo, configured server-side via env. */
+export type Branding = {
+    name: string;
+    tagline: string | null;
+    logo: string | null;
+    logoDark: string | null;
+};

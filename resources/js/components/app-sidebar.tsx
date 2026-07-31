@@ -2,6 +2,8 @@ import { Link } from '@inertiajs/react';
 import { CalendarRange, LayoutGrid, Stethoscope, Syringe } from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
+import { BrandMark } from '@/components/nova/brand-mark';
+import { SidebarLangToggle } from '@/components/nova/sidebar-lang-toggle';
 import {
     Sidebar,
     SidebarContent,
@@ -11,12 +13,14 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useBranding } from '@/hooks/use-branding';
 import { useLang } from '@/hooks/use-lang';
 import admin from '@/routes/admin';
 import type { NavItem } from '@/types';
 
 export function AppSidebar() {
     const { t } = useLang();
+    const { name: brandName } = useBranding();
 
     const mainNavItems: NavItem[] = [
         {
@@ -48,12 +52,10 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <Link href={admin.bookings.index()}>
-                                <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                                    <Stethoscope className="size-4.5" />
-                                </span>
+                                <BrandMark />
                                 <span className="ml-1 grid flex-1 text-left text-sm">
                                     <span className="truncate leading-tight font-semibold">
-                                        Nova Clinic
+                                        {brandName}
                                     </span>
                                     <span className="truncate text-xs text-muted-foreground">
                                         {t('admin.sidebarLabel')}
@@ -70,6 +72,7 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
+                <SidebarLangToggle />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
