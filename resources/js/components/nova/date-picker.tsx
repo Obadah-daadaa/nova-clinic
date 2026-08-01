@@ -77,7 +77,7 @@ export function DatePicker({ value, onChange, placeholder, className }: Props) {
                 <Button
                     variant="outline"
                     className={cn(
-                        'w-full justify-start gap-2 text-left font-normal',
+                        'w-full justify-start gap-2 text-start font-normal',
                         !value && 'text-muted-foreground',
                         className,
                     )}
